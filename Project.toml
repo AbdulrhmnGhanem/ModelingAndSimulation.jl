@@ -3,6 +3,9 @@ uuid = "5b894b6a-e612-446a-8d54-a1eeff33d94d"
 authors = ["Abdulrhmn Ghanem <abdoghanem160@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
 [compat]
 julia = "1.8"
 
