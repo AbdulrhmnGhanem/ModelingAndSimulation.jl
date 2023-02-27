@@ -38,7 +38,11 @@ State(; args...) = State(DataFrame(; args...))
 const TimeSeries = State
 
 function plot(ts::TimeSeries; plotter=Plots.plot, kwargs...)
-    x = [parse(Int, s) for s in names(ts)]
+    x = try
+        [parse(Int, s) for s in names(ts)]
+    catch
+        [parse(Float64, s) for s in names(ts)]
+    end
     y = vec(Matrix(values(ts)))
     plotter(x, y; kwargs...)
 end
