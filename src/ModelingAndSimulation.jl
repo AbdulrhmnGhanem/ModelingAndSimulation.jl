@@ -1,6 +1,7 @@
 module ModelingAndSimulation
 using DataFrames
 using ReusePatterns
+using Plots
 
 struct State <: AbstractDataFrame
     df::DataFrame
@@ -34,7 +35,21 @@ end
 State(; args...) = State(DataFrame(; args...))
 
 # Alias TimeSeries to DataFrame
-const TimeSeries = DataFrame
+const TimeSeries = State
+
+function plot(ts::TimeSeries; plotter=Plots.plot, kwargs...)
+    x = [parse(Int, s) for s in names(ts)]
+    y = vec(Matrix(values(ts)))
+    plotter(x, y; kwargs...)
+end
+plot!(ts::TimeSeries; kwargs...) = plot(ts; plotter=Plots.plot!, kwargs...)
+
+function yticks(tss::TimeSeries...)
+    ys = [vec(Matrix(values(ts))) for ts in tss]
+    max_ys = [maximum(y) for y in ys]
+    min_ys = [minimum(y) for y in ys]
+    return minimum(min_ys):2:maximum(max_ys)
+end
 
 flip(p=0.5) = rand() < p
 end
