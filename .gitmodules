@@ -1,0 +1,3 @@
+[submodule "ModSimPy"]
+	path = ModSimPy
+	url = https://github.com/AllenDowney/ModSimPy
