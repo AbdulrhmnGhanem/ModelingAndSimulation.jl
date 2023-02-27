@@ -2,6 +2,7 @@ module ModelingAndSimulation
 using DataFrames
 using ReusePatterns
 using Plots
+using Statistics
 
 struct State <: AbstractDataFrame
     df::DataFrame
@@ -46,6 +47,11 @@ function plot(ts::TimeSeries; plotter=Plots.plot, kwargs...)
     y = vec(Matrix(values(ts)))
     plotter(x, y; kwargs...)
 end
+
+function mean(ts::TimeSeries)
+    return Statistics.mean(Matrix(ts))
+end
+
 plot!(ts::TimeSeries; kwargs...) = plot(ts; plotter=Plots.plot!, kwargs...)
 
 function yticks(tss::TimeSeries...)
