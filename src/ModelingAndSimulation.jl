@@ -35,7 +35,7 @@ end
 
 State(; args...) = State(DataFrame(; args...))
 
-# Alias TimeSeries to DataFrame
+# Alias TimeSeries to State
 const TimeSeries = State
 
 function plot(ts::TimeSeries; plotter=Plots.plot, kwargs...)
@@ -48,10 +48,6 @@ function plot(ts::TimeSeries; plotter=Plots.plot, kwargs...)
     plotter(x, y; kwargs...)
 end
 
-function mean(ts::TimeSeries)
-    return Statistics.mean(Matrix(ts))
-end
-
 plot!(ts::TimeSeries; kwargs...) = plot(ts; plotter=Plots.plot!, kwargs...)
 
 function yticks(tss::TimeSeries...)
@@ -59,6 +55,10 @@ function yticks(tss::TimeSeries...)
     max_ys = [maximum(y) for y in ys]
     min_ys = [minimum(y) for y in ys]
     return minimum(min_ys):2:maximum(max_ys)
+end
+
+function mean(ts::TimeSeries)
+    return Statistics.mean(Matrix(ts))
 end
 
 flip(p=0.5) = rand() < p
