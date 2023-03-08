@@ -19,6 +19,7 @@ function Base.getproperty(state::State, key::Symbol)
 end
 
 function Base.setproperty!(state::State, key::Symbol, x)
+    val = x
     if !isa(x, AbstractVector)
         val = [x]
     end
@@ -31,6 +32,14 @@ function Base.setindex!(state::State, x, key::Symbol)
         val = [x]
     end
     state[!, key] = val
+end
+
+function Base.getindex(state::State, key::Symbol)
+    val = state[!, key]
+    if isa(val, AbstractVector) && length(val) == 1
+        return val[1]
+    end
+    return val
 end
 
 State(; args...) = State(DataFrame(; args...))
@@ -62,4 +71,6 @@ function mean(ts::TimeSeries)
 end
 
 flip(p=0.5) = rand() < p
+
+const System = Dict{Symbol,Any}
 end
